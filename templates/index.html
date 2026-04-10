@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>AI Airbnb Assistant</title>
+    <title>HostAssist AI</title>
     <style>
       body {
         font-family: Arial;
@@ -16,17 +16,12 @@
         border-radius: 10px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
       }
-      h2 {
-        text-align: center;
-      }
       textarea,
       input {
         width: 100%;
         padding: 12px;
         margin-top: 10px;
         margin-bottom: 15px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
       }
       button {
         width: 100%;
@@ -34,43 +29,52 @@
         background: #ff5a5f;
         color: white;
         border: none;
-        border-radius: 5px;
-        font-size: 16px;
-      }
-      button:hover {
-        background: #e14b50;
       }
       .reply {
         margin-top: 20px;
         padding: 15px;
         background: #eef6ff;
-        border-left: 5px solid #2196f3;
+      }
+      .saved {
+        background: #e6ffe6;
+        padding: 10px;
+        margin-bottom: 15px;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h2>🏠 AI Airbnb Assistant</h2>
+      <h2>🏠 HostAssist AI</h2>
 
+      {% if not property_saved %}
+      <!-- STEP 1: Save Property Info -->
       <form method="POST">
-        <label>Property Info</label>
+        <h3>Step 1: Enter Property Info</h3>
         <textarea
           name="property_info"
           rows="6"
           placeholder="Describe your property..."
         ></textarea>
+        <button type="submit">Save Property</button>
+      </form>
 
-        <label>Guest Question</label>
+      {% else %}
+      <!-- STEP 2: Ask Questions -->
+      <div class="saved">
+        ✅ Property info saved
+        <a href="/reset">(Change)</a>
+      </div>
+
+      <form method="POST">
+        <h3>Ask Guest Question</h3>
         <input
           type="text"
           name="question"
           placeholder="e.g. Is there parking?"
         />
-
         <button type="submit">Generate Reply</button>
       </form>
-
-      {% if reply %}
+      {% endif %} {% if reply %}
       <div class="reply">
         <strong>AI Reply:</strong>
         <p>{{ reply }}</p>
